@@ -1,175 +1,166 @@
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class Add {
 
     public static void main(String[] args) {
+        Book book = new Book(0, "", "", 0, "", "");
         Library library = new Library(10);
-        Scanner scanner = new Scanner(System.in);
+
 
         while (true) {
-            System.out.println("1. Add a book");
-            System.out.println("2. Insert a book at a specified index");
-            //System.out.println("3. Display all books"); TEST FOR DISPLAY
+            String[] options = {"Add a book", "Add book w/ specific index"};
+            int choice = JOptionPane.showOptionDialog(null, "                          How do you want to add your book?", "Add a book",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
-            System.out.print("Choose an option: ");
-            int option = scanner.nextInt();
+            if (choice == 0) {
+                book.setBookTitle(JOptionPane.showInputDialog("Book Details \nEnter Book Title "));
+                book.setBookAuthorFirstname(JOptionPane.showInputDialog("Author Details \nEnter Author's First Name:  "));
+                book.setBookAuthorLastname(JOptionPane.showInputDialog("Author Details \nEnter Author's Last Name:  "));
+                book.setBookGenre(JOptionPane.showInputDialog("Book Details \nEnter Book Genre "));
+                book.setPublicationYear(Short.parseShort(JOptionPane.showInputDialog("Book Details \nEnter Publication Year ")));
 
-            switch (option) {
-                case 1:
-                    System.out.print("Enter book ID: ");
-                    int identification = scanner.nextInt();
-                    System.out.print("Enter book Title: ");
-                    String title = scanner.next();
-                    System.out.print("Enter book Author: ");
-                    String author = scanner.next();
-                    System.out.print("Enter book Genre: ");
-                    String genre = scanner.next();
-                    System.out.print("Enter book publication year: ");
-                    int publicationYear = scanner.nextInt();
-                    library.add(new Book(identification, title, author, genre, publicationYear));
+                library.add(book);
 
-                    System.out.println("Book added successfully.");
-                    break;
+                JOptionPane.showMessageDialog(null, "Book added successfully.");
 
-                case 2:
-                    System.out.print("Enter index: ");
-                    int index = scanner.nextInt();
-                    System.out.print("Enter book ID: ");
-                    identification = scanner.nextInt();
-                    System.out.print("Enter book title: ");
-                    title = scanner.next();
-                    System.out.print("Enter book author: ");
-                    author = scanner.next();
-                    System.out.print("Enter book Genre: ");
-                    genre = scanner.next();
-                    System.out.print("Enter book publication year: ");
-                    publicationYear = scanner.nextInt();
+            } else if (choice == 1) {
+                String input = JOptionPane.showInputDialog("Enter index: ");
+                int index = Integer.parseInt(input);
+                book.setBookId(Short.parseShort(JOptionPane.showInputDialog("Book Details \nEnter Book ID: ")));
+                book.setBookTitle(JOptionPane.showInputDialog("Book Details \nEnter Book Title "));
+                book.setBookAuthorFirstname(JOptionPane.showInputDialog("Author Details \nEnter Author's First Name:  "));
+                book.setBookAuthorLastname(JOptionPane.showInputDialog("Author Details \nEnter Author's Last Name:  "));
+                book.setBookGenre(JOptionPane.showInputDialog("Book Details \nEnter Book Genre "));
+                book.setPublicationYear(Short.parseShort(JOptionPane.showInputDialog("Book Details \nEnter Publication Year ")));
 
-                    try {
-                        library.insert(index, new Book(identification, title, author, genre, publicationYear));
-                        System.out.println("Book inserted successfully at index " + index + ".");
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("Invalid index! Book insertion failed.");
-                    }
-                    break;
-//TEST FOR DISPLAY ONLY
-                /*case 3:
-                    if (library.isEmpty()) {
-                        System.out.println("The library is empty.");
-                    } else {
-                        System.out.println("Books in the library:");
-                        for (int i = 0; i < library.size(); i++) {
-                            Book b = library.get(i);
-                            System.out.println(i + ": " + b.getIdentification() + " " + b.getTitle() +" " + b.getGenre() + " " + "by " + b.getAuthor() + "Published on: " + b.getPublicationYear());
-                        }
-                    }
-                    break;
-*/
-                default:
-                    System.out.println("Invalid option. Please choose a valid option.");
+                try {
+                    library.insert(index, book);
+                    JOptionPane.showMessageDialog(null, "Book inserted successfully at index " + index + ".");
+                } catch (IndexOutOfBoundsException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid index! Book insertion failed.");
+                }
+            }
+            else {
+                break;
             }
         }
-    }
-
-
-    static class Book {
-        private String title, author, genre;
-        private int publicationYear, identification;
-
-        public Book(int identification, String title, String author, String genre, int publicationYear) {
-            this.title = title;
-            this.author = author;
-            this.publicationYear = publicationYear;
-            this.identification = identification;
-            this.genre = genre;
-        }
-
-        public int getIdentification() {
-            return identification;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getAuthor() {
-            return author;
-        }
-
-        public String getGenre() {
-            return genre;
-        }
-
-        public int getPublicationYear() {
-            return publicationYear;
-        }
-
-    }
-
-
-    public static class Library {
-        private Book[] books;
-        private int size;
-
-        public Library(int initialCapacity) {
-            books = new Book[initialCapacity];
-            size = 0;
-        }
-
-        // Add a book to the end of the array
-        public void add(Book book) {
-            if (size == books.length) {
-                resize();
-            }
-            books[size] = book;
-            size++;
-        }
-
-        // Insert a book at a specified index
-        public void insert(int index, Book book) {
-            if (index < 0 || index > size) {
-                throw new IndexOutOfBoundsException();
-            }
-            if (size == books.length) {
-                resize();
-            }
-            for (int i = size; i > index; i--) {
-                books[i] = books[i - 1];
-            }
-            books[index] = book;
-            size++;
-        }
-
-
-        // Resize the array when it's full
-        private void resize() {
-            Book[] newBooks = new Book[books.length * 2];
-            System.arraycopy(books, 0, newBooks, 0, books.length);
-            books = newBooks;
-        }
-// TEST FOR DISPLAY
-/*
-        // Get the number of books in the library
-        public int size() {
-            return size;
-        }
-
-        // Check if the library is empty
-        public boolean isEmpty() {
-            return size == 0;
-        }
-
-        // Get a book at a specified index
-        public Book get(int index) {
-            if (index < 0 || index >= size) {
-                throw new IndexOutOfBoundsException();
-            }
-            return books[index];
-        }
-    }
-
- */
     }
 }
 
 
+class Book {
+    private String bookTitle, bookGenre;
+    private int publicationYear, bookId;
+    protected String bookAuthorLastname, bookAuthorFirstname;
+
+
+    public Book(int bookId, String bookTitle, String bookGenre, int publicationYear, String bookAuthorLastname, String bookAuthorFirstname) {
+        this.bookId = bookId;
+        this.bookTitle = bookTitle;
+        this.publicationYear = publicationYear;
+        this.bookGenre = bookGenre;
+        this.bookAuthorLastname = bookAuthorLastname;
+        this.bookAuthorFirstname = bookAuthorFirstname;
+    }
+
+
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
+
+    public String getBookGenre() {
+        return bookGenre;
+    }
+
+    public void setBookGenre(String bookGenre) {
+        this.bookGenre = bookGenre;
+    }
+
+    public int getPublicationYear() {
+        return publicationYear;
+    }
+
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
+    }
+
+
+    public String getBookAuthorLastname() {
+        return bookAuthorLastname;
+    }
+
+    public void setBookAuthorLastname(String bookAuthorLastname) {
+        this.bookAuthorLastname = bookAuthorLastname;
+    }
+
+    public String getBookAuthorFirstname() {
+        return bookAuthorLastname;
+    }
+
+    public void setBookAuthorFirstname(String bookAuthorFirstname) {
+        this.bookAuthorFirstname = bookAuthorFirstname;
+    }
+    public void setInfo(int bookId, String bookTitle, String bookGenre, int publicationYear, String bookAuthorLastname, String bookAuthorFirstname) {
+        this.bookId = bookId;
+        this.bookTitle = bookTitle;
+        this.bookGenre = bookGenre;
+        this.publicationYear = publicationYear;
+        this.bookAuthorLastname = bookAuthorLastname;
+        this.bookAuthorFirstname = bookAuthorFirstname;
+    }
+
+}
+
+class Library {
+    private Book[] books;
+    private int size;
+
+    public Library(int initialCapacity) {
+        books = new Book[initialCapacity];
+        size = 0;
+    }
+
+    // Add a book to the end of the array
+    public void add(Book book) {
+        if (size == books.length) {
+            resize();
+        }
+        books[size] = book;
+        size++;
+    }
+
+    // Insert a book at a specified index
+    public void insert(int index, Book book) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (size == books.length) {
+            resize();
+        }
+        for (int i = size; i > index; i--) {
+            books[i] = books[i - 1];
+        }
+        books[index] = book;
+        size++;
+    }
+
+    // Resize the array when it's full
+    private void resize() {
+        Book[] newBooks = new Book[books.length * 2];
+        System.arraycopy(books, 0, newBooks, 0, books.length);
+        books = newBooks;
+    }
+}
