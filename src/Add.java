@@ -2,11 +2,8 @@ import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
 public class Add {
-    private ArrayList<Book> books;
 
-    public Add() {
-        this.books = new ArrayList<>();
-    }
+    private ArrayList<Book> books;
 
     public void addBook() {
         String title = JOptionPane.showInputDialog("Enter Book title: ");
@@ -64,9 +61,6 @@ public class Add {
         }
     }
 
-    public ArrayList<Book> getBooks() {
-        return books;
-    }
 
     public static void main (String[]args){
         Add library = new Add();
