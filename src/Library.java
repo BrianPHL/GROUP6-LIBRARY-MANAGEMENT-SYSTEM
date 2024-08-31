@@ -24,5 +24,7 @@ public class Library
     {
         return libraryList.get(index);
     }
-
+    public boolean isEmpty() {
+        return libraryList.isEmpty();
+    }
 }

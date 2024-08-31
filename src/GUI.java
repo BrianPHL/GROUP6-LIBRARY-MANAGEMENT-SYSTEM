@@ -42,6 +42,9 @@ public class GUI extends JFrame
         AddBooksBtn.addActionListener((e) -> onAddBooks());
         RemoveBooksBtn.addActionListener((e) -> onRemoveBooks());
         FindBooksBtn.addActionListener((e) -> onFindBooks());
+        GetLibrarySizeBtn.addActionListener((e) -> onGetLibrarySize());
+        CheckIfEmptyBtn.addActionListener((e) -> onEmptyListCheck());
+
     }
 
     private void refreshTable()
@@ -159,6 +162,23 @@ public class GUI extends JFrame
         }
 
     }
+    private void onGetLibrarySize()
+    {
+        JOptionPane.showMessageDialog(null, "The library currently has " + library.libraryList.size() + " books. Feel free to add more!");
+    }
+
+    private void onEmptyListCheck()
+    {
+        if (library.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "The library is currently empty! Feel free to add books.");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "The library currently has " + library.libraryList.size() + " books and is not empty. Feel free to add more!");
+        }
+    }
+
     public static void main(String[] args)
     {
         GUI gui = new GUI();
