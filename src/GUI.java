@@ -37,6 +37,11 @@ public class GUI extends JFrame
         refreshTable();
     }
 
+    private void initActions()
+    {
+        AddBooksBtn.addActionListener((e) -> onAddBooks());
+    }
+
     private void refreshTable()
     {
 
@@ -56,6 +61,56 @@ public class GUI extends JFrame
         setSize(576, 384);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private void onAddBooks()
+    {
+        String choice = JOptionPane.showInputDialog(null, "Are you inputting with index (type 1) or not (type 2)?");
+
+        if (choice == null) return;
+
+        if (choice.equals("1"))
+        {
+            try
+            {
+                int index = Integer.parseInt(JOptionPane.showInputDialog(null, "Input new book index (You can only insert up to " + library.libraryList.size() + " indices): " ));
+                String title = JOptionPane.showInputDialog(null, "Input new book title:");
+                String author = JOptionPane.showInputDialog(null, "Input new book author:");
+                String genre = JOptionPane.showInputDialog(null, "Input new book genre:");
+                int year = Integer.parseInt(JOptionPane.showInputDialog(null, "Input new book publication year:"));
+
+                library.onInsertAtSpecificIndex(index, new Book(title, author, genre, year));
+                refreshTable();
+
+            }
+            catch (Exception error)
+            {
+                JOptionPane.showMessageDialog(null, error);
+            }
+
+        }
+        else if (choice.equals("2"))
+        {
+            try
+            {
+                String title = JOptionPane.showInputDialog(null, "Input new book title:");
+                String author = JOptionPane.showInputDialog(null, "Input new book author:");
+                String genre = JOptionPane.showInputDialog(null, "Input new book genre:");
+                int year = Integer.parseInt(JOptionPane.showInputDialog(null, "Input new book publication year:"));
+
+                library.onInsertAnywhere(new Book(title, author, genre, year));
+                refreshTable();
+            }
+            catch (Exception error)
+            {
+                JOptionPane.showMessageDialog(null, error);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You input a key that is not in the choices! Please try again.");
+        }
+
     }
 
     public static void main(String[] args)
