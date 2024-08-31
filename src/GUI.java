@@ -40,6 +40,8 @@ public class GUI extends JFrame
     private void initActions()
     {
         AddBooksBtn.addActionListener((e) -> onAddBooks());
+
+        RemoveBooksBtn.addActionListener((e) -> onRemoveBooks());
     }
 
     private void refreshTable()
@@ -112,6 +114,29 @@ public class GUI extends JFrame
         }
 
     }
+
+    private void onRemoveBooks()
+{
+    try
+    {
+        int index = Integer.parseInt(JOptionPane.showInputDialog(null, "Input index of the book you want to remove (You can only remove one book from " + library.libraryList.size() + " indices): " ));
+        String bookTitle = library.libraryList.get(index).getDetails()[0];
+
+        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove the book, \"" + bookTitle + "\"?", "Confirm", JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION)
+        {
+            library.onRemoveABookByIndex(index);
+            refreshTable();
+            JOptionPane.showMessageDialog(null, "\"" + bookTitle + "\" book was successfully removed!");
+        }
+
+    }
+    catch (Exception error)
+    {
+        JOptionPane.showMessageDialog(null, error);
+    }
+}
 
     public static void main(String[] args)
     {
