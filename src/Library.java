@@ -20,5 +20,9 @@ public class Library
     {
         libraryList.remove(index);
     }
+    public Book getBookByIndex(int index)
+    {
+        return libraryList.get(index);
+    }
 
 }

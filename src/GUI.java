@@ -40,8 +40,8 @@ public class GUI extends JFrame
     private void initActions()
     {
         AddBooksBtn.addActionListener((e) -> onAddBooks());
-
         RemoveBooksBtn.addActionListener((e) -> onRemoveBooks());
+        FindBooksBtn.addActionListener((e) -> onFindBooks());
     }
 
     private void refreshTable()
@@ -138,10 +138,32 @@ public class GUI extends JFrame
     }
 }
 
+    private void onFindBooks()
+    {
+        try
+        {
+            int index = Integer.parseInt(JOptionPane.showInputDialog(null, "Input index of the book you want to find (You can only find one book from " + library.libraryList.size() + " indices): " ));
+
+            Book book = library.getBookByIndex(index);
+
+            String title = book.getDetails()[0];
+            String author = book.getDetails()[1];
+            String genre = book.getDetails()[2];
+            String year = book.getDetails()[3];
+
+            JOptionPane.showMessageDialog(null, "Title: " + title + "\nAuthor: " + author + "\nGenre: " + genre + "\nYear: " + year);
+        }
+        catch (Exception error)
+        {
+            JOptionPane.showMessageDialog(null, error);
+        }
+
+    }
     public static void main(String[] args)
     {
         GUI gui = new GUI();
         gui.initialize();
     }
+
 
 }
