@@ -1,12 +1,14 @@
 public class Book
 {
+    private final int index;
     private final String title;
     private final String author;
     private final String genre;
     private final int year;
 
-    public Book(String title, String author, String genre, int year)
+    public Book(int index, String title, String author, String genre, int year)
     {
+        this.index = index;
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -16,11 +18,12 @@ public class Book
     public String[] getDetails()
     {
         return new String[]
-        {
-            this.title,
-            this.author,
-            this.genre,
-            Integer.toString(this.year)
-        };
+                {
+                        Integer.toString(this.index),
+                        this.title,
+                        this.author,
+                        this.genre,
+                        Integer.toString(this.year)
+                };
     }
 }
