@@ -16,11 +16,11 @@ public class Book
     public String[] getDetails()
     {
         return new String[]
-                {
-                        this.title,
-                        this.author,
-                        this.genre,
-                        Integer.toString(this.year)
-                };
+        {
+            this.title,
+            this.author,
+            this.genre,
+            Integer.toString(this.year)
+        };
     }
 }
